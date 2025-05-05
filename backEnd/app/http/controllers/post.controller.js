@@ -22,9 +22,8 @@ class PostController extends Controller {
     let dbQuery = {};
     const user = req.user;
     let { search, categorySlug, sort, page, limit } = req.query;
-
-    page = page || 1;
-    limit = limit || 6;
+    page = Number(page) || 1;
+    limit = Number(limit) || 6;
     const skip = (page - 1) * limit;
 
     if (search) {
