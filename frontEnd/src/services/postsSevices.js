@@ -12,9 +12,9 @@ export async function getPosts(queries, options) {
 export async function getPostBySlug(slug) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post/slug/${slug}`);
     const { data } = await response.json();
-    const { posts } = data || {};
+    const { post } = data || {};
 
-    return posts;
+    return post;
 };
 
 export async function likePostApi(postId) {

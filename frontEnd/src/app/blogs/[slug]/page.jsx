@@ -1,9 +1,11 @@
-import { getPostBySlog, getPosts } from "@/services/postsSevices";
+import { getPostBySlug, getPosts } from "@/services/postsSevices";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import RelatedPost from "../_components/RelatedPost";
+import PostComment from "../_components/comments/PostComment";
 
 export async function generateMetadata({ params }) {
-    const post = await getPostBySlog(params.slug);
+    const post = await getPostBySlug(params.slug);
     return {
         title: `پست ${post.title}`
     }
@@ -12,13 +14,13 @@ export async function generateMetadata({ params }) {
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-    const posts = await getPosts();
-    const slugs = posts.map(post => ({ slug: post.slug }));
+    const post = await getPosts();
+    const slugs = post.map(post => ({ slug: post.slug }));
     return slugs;
 };
 
 export default async function SinglePost({ params }) {
-    const post = await getPostBySlog(params.slug);
+    const post = await getPostBySlug(params.slug);
 
     if (!post) notFound();
 
@@ -37,9 +39,10 @@ export default async function SinglePost({ params }) {
                     alt={post.coverImageUrl}
                 />
             </div>
-            {/* {post.related.length > 0 ? <RelatedPost posts={post.related} /> : null}
-            <BlogComments post={post} /> */}
+            {post.related.length > 0 && <RelatedPost posts={post.related} />}
+            <PostComment post={post} />
         </div>
     )
 };
 
+// post => { comments : [ { title: "test" }. {answers: [ {title: answer comment}. {} ]}, ... ]}
