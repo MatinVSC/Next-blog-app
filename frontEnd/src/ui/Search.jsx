@@ -10,17 +10,17 @@ export default function Search() {
 
   const formSubmit = e => {
     e.preventDefault();
-    const searchValue = e.target.search.value;
+    const search = e.target.search;
+    const searchValue = search.value;
+
     // URL =>
     const newParams = new URLSearchParams(searchParams.toString());
-    if (searchValue) {
-      newParams.set("search", searchValue);
-    } else {
-      newParams.delete("search");
-    };
+    searchValue ? newParams.set("search", searchValue) : newParams.delete("search");
 
     router.push(`${pathname}?${newParams.toString()}`, { scroll: false });
   };
+
+  // /blogs?search=...
 
   return (
     <form className="relative" onSubmit={formSubmit}>

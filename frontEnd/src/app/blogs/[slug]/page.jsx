@@ -4,23 +4,26 @@ import { notFound } from "next/navigation";
 import RelatedPost from "../_components/RelatedPost";
 import PostComment from "../_components/comments/PostComment";
 
-export async function generateMetadata({ params }) {
-    const post = await getPostBySlug(params.slug);
+// برای Metadata نیز params باید await شود
+export async function generateMetadata(props) {
+    const { slug } = await props.params;
+    const post = await getPostBySlug(slug);
+
     return {
-        title: `پست ${post.title}`
-    }
-};
+        title: `پست ${post?.title || "نامشخص"}`,
+    };
+}
 
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-    const post = await getPosts();
-    const slugs = post.map(post => ({ slug: post.slug }));
-    return slugs;
-};
+    const posts = await getPosts();
+    return posts.map(post => ({ slug: post.slug }));
+}
 
-export default async function SinglePost({ params }) {
-    const post = await getPostBySlug(params.slug);
+export default async function SinglePost(props) {
+    const { slug } = await props.params;
+    const post = await getPostBySlug(slug);
 
     if (!post) notFound();
 
@@ -36,13 +39,11 @@ export default async function SinglePost({ params }) {
                     className="object-cover object-center hover:scale-110 transition-all ease-out duration-300"
                     fill
                     src={post.coverImageUrl}
-                    alt={post.coverImageUrl}
+                    alt={post.title}
                 />
             </div>
-            {post.related.length > 0 && <RelatedPost posts={post.related} />}
+            {post.related?.length > 0 && <RelatedPost posts={post.related} />}
             <PostComment post={post} />
         </div>
-    )
-};
-
-// post => { comments : [ { title: "test" }. {answers: [ {title: answer comment}. {} ]}, ... ]}
+    );
+}
