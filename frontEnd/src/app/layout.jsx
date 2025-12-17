@@ -16,10 +16,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fa" dir="rtl">
       <body className={`min-h-screen  ${vazirFont.variable} font-sans `}>
+        <Toaster />
         <AuthProvider>
-          <Toaster />
-          <Header />
-          <div className="container xl:max-w-screen-xl">{children}</div>
+          {children}
         </AuthProvider>
       </body>
     </html>
