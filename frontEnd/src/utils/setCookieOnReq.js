@@ -1,15 +1,17 @@
-export default async function setCookiesOnReq(cookies) {
-  // cookies get from => 1. const cookies = cookies() OR 2: req.cookies
+export default async function setCookiesOnReq(cookiesPromise) {
+  // 1. ابتدا باید از promise بودن کوکی‌ها مطمئن شویم
+  const cookieStore = await cookiesPromise; 
+
   const options = {
     headers: {
       Cookie:
-        `${cookies.get("accessToken")?.name}=${
-          cookies.get("accessToken")?.value
-        }; ${cookies.get("refreshToken")?.name}=${
-          cookies.get("refreshToken")?.value
+        `${cookieStore.get("accessToken")?.name}=${
+          cookieStore.get("accessToken")?.value
+        }; ${cookieStore.get("refreshToken")?.name}=${
+          cookieStore.get("refreshToken")?.value
         }` || "-",
     },
   };
 
   return options;
-}
+};
