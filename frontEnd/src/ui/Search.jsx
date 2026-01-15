@@ -15,6 +15,7 @@ export default function Search() {
 
     // URL =>
     const newParams = new URLSearchParams(searchParams.toString());
+    newParams.set("page", "1");
     searchValue ? newParams.set("search", searchValue) : newParams.delete("search");
 
     router.push(`${pathname}?${newParams.toString()}`, { scroll: false });

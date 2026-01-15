@@ -1,5 +1,5 @@
-import Header from "@/components/Header";
 import AuthProvider from "@/context/AuthContext";
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import "@/styles/globals.css";
 import vazirFont from "constants/localFont";
 import { Toaster } from "react-hot-toast";
@@ -14,12 +14,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fa" dir="rtl">
+    <html lang="fa" dir="rtl" className="dark-mode">
       <body className={`min-h-screen  ${vazirFont.variable} font-sans `}>
         <Toaster />
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <ReactQueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
