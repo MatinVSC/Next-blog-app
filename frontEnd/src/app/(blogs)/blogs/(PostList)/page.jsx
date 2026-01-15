@@ -8,7 +8,7 @@ export default async function BlogPage({ searchParams }) {
     const queries = queryString.stringify(searchParams);
     const cookieStore = cookies();
     const options = setCookiesOnReq(cookieStore);
-    const posts = await getPosts(queries, options);
+    const { posts } = await getPosts(queries, options);
 
     const { search } = searchParams;
 
@@ -19,11 +19,11 @@ export default async function BlogPage({ searchParams }) {
                 search ? <p className="mb-4 text-secondary-700">
                     {
                         posts.length == 0 ? "هیج پستی با این مشخصات پیدا نشد"
-                        : `نشان دادن ${posts.length} نتیجه برای`
+                            : `نشان دادن ${posts.length} نتیجه برای`
                     }
                     <span className="font-bild"> &quot; {search} &quot;</span>
-                </p> 
-                : null
+                </p>
+                    : null
             }
             <PostList posts={posts} />
         </>

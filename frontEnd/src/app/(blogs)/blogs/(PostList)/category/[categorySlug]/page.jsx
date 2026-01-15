@@ -12,7 +12,7 @@ export default async function Category({ params, searchParams }) {
     const queries = `${queryString.stringify(searchParams)}&categorySlug=${categorySlug}`; // search and sort 
     const cookieStore = cookies();
     const options = setCookiesOnReq(cookieStore);
-    const posts = await getPosts(queries, options);
+    const { posts } = await getPosts(queries, options);
 
     return (
         <div>

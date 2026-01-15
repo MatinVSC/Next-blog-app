@@ -17,7 +17,7 @@ export async function generateMetadata(props) {
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-    const posts = await getPosts();
+    const { posts } = await getPosts();
     return posts.map(post => ({ slug: post.slug }));
 }
 
