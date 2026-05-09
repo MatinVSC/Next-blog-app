@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import PostsTable from "./_/components/postsTable";
+import PostsTable from "./_/components/PostsTable";
 import Search from "@/ui/Search";
 import { CreatePost } from "./_/components/Buttons";
 import queryString from "query-string";
@@ -8,7 +8,9 @@ import { getPosts } from "@/services/postsSevices";
 import Pagination from "@/ui/Pagination";
 
 export default async function page({ searchParams }) {
-    const query = await queryString.stringify(searchParams);
+    const resolvedSearchParams = await searchParams;
+    const query = queryString.stringify(resolvedSearchParams);
+    
     const { totalPages } = await getPosts(query);
 
     return (
