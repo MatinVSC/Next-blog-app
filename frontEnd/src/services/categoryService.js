@@ -1,5 +1,11 @@
 import http from "./httpService";
 
-export async function getCategoryApi(options) {
-    return http.get("/category/list", data, options).then(({ data }) => data.data)
+export async function getCategoryApi() {
+  return http.get("/category/list").then(({ data }) => data.data);
+}
+
+const categoryApi = { 
+  getCategoryApi,
 };
+
+export default categoryApi;

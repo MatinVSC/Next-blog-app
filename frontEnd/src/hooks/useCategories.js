@@ -1,26 +1,25 @@
 import { getCategoryApi } from "@/services/categoryService";
-import { useQuery } from "@tanstack/react-query"
+import { useQuery } from "react-query";
 
-export function useCategories() {
-    const { data, isLoading } = useQuery({
-        queryKey: ["categories"],
-        queeryFn: getCategoryApi
-    });
+export default function useCategories() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategoryApi,
+  });
 
-    // {_id, title, englishTitle, ...}
-    const { categories: rawCategories } = data || {};
+  // {_id, title, enTitle, ....}
+  const { categories: rawCategories = [] } = data || {};
 
-    // {value, label}
-    const categories = rawCategories.map(item => ({
-        label: item.title,
-        value: item._id
-    }));
+  // {value, label}
+  const categories = rawCategories.map((item) => ({
+    label: item.title,
+    value: item._id,
+  }));
 
-    // {title, enTitle}
-    const transformedCategories = rawCategories.map(item => ({
-        label: item.title,
-        value: item.englishTitle
-    }));
+  const transformedCategories = rawCategories.map((item) => ({
+    label: item.title,
+    value: item.englishTitle,
+  }));
 
-    return { isLoading, categories, transformedCategories };
+  return { isLoading, categories, transformedCategories };
 };

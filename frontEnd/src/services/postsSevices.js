@@ -3,7 +3,7 @@ import http from "./httpService";
 export async function getPosts(queries, options) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/post/list?${queries}`, options);
     const { data } = await response.json()
-    const { posts, totalPages } = await data || {};
+    const { posts = [], totalPages = 0 } = await data || {};
 
     return { posts, totalPages };
 };
@@ -24,3 +24,25 @@ export async function likePostApi(postId) {
 export async function bookmarkPostApi(postId) {
     return http.post(`/post/bookmark/${postId}`).then(({ data }) => data.data);
 };
+
+export async function editPostApi({ id, data }) {
+    return http.patch(`/post/update/${id}`, data).then(({ data }) => data.data);
+};
+
+export async function createPostApi(data) {
+    return http.post(`/post/create`, data).then(({ data }) => data.data);
+};
+
+export async function getPostById(id) {
+    return http.get(`/post/${id}`).then(({ data }) => data);
+};
+
+export async function deletePostApi({ id, option }) {
+    return http.delete(`/post/remove/${id}`, option).then(({ data }) => data);
+};
+
+const postApi = {
+    getPostById,
+};
+
+export default postApi;
